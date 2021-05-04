@@ -1,0 +1,27 @@
+html    {
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+h1  {
+    text-align: center;
+}
+
+.gameboard {
+    width: 300px;
+    display: grid;
+    grid-template-columns: repeat(3,100px);
+    grid-template-rows: repeat(3,100px);
+}
+
+.square {
+
+    border: 1px solid black;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    font-size:xx-large
+
+}
