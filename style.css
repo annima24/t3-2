@@ -17,6 +17,7 @@ h1  {
 
 .theGame    {
     display: grid;
+    gap: 10px;
     justify-content: center;
     align-content: center;
 
@@ -50,6 +51,34 @@ h1  {
     justify-self: end;
 }
 
+.hiddenMessageContainer {
+    visibility: hidden;
+    max-height: 0;
+    max-width: 400px;
+}
+.hiddenMessage  {
+    display: grid;
+    justify-content: center;
+    align-content: center;    
+}
+
+.roundWinnerMessage    {   
+    font-size: 40px;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.hiddenButtonContainer    {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+.nextRoundButton   {
+    background: rgba(255, 255, 255, 0);
+    border: 2px solid black;
+    font-family: 'Girassol', cursive;
+    font-size: 20px;
+}
 
 .resetGameBtn    {
     background: rgba(255, 255, 255, 0);

@@ -10,8 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet"> 
 </head>
 <body>
-    <div class="theGame">
-        <div class="playerCards">
+    <div class="gameContainer">
+
+        <div class="theGame">
+            <div class="playerCards">
             <div class="p1card pcards">
                 <p >Player 1</p>
                 <p >X</p>
@@ -23,12 +25,19 @@
                 <p class="p2CardScore"></p>
             </div>
         </div>
-            
+        
         <h1 class="name">Tic Tac Toe</h1>
         <div class="buttonContainer">
             <button type="button" class="resetGameBtn">Reset game</button>
         </div>
-        <p class="scoreBoard"></p>
+        <div class="hiddenMessageContainer">            
+            <div class="hiddenMessage">
+                <p class="roundWinnerMessage"></p>
+                <div class="hiddenButtonContainer">
+                    <button type="button" class="nextRoundButton">Next Round</button>
+                </div>
+            </div>
+        </div>
         <div class="gameBackground">
             <div class="gameboard">
                 <div class="square"></div>
@@ -43,9 +52,10 @@
             </div>
         </div>
     </div>
-        
-        
-        
-        <script src="script.js"></script>
-    </body>
-    </html>
+</div>
+    
+    
+    
+    <script src="script.js"></script>
+</body>
+</html>

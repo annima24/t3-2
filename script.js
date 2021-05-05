@@ -1,8 +1,8 @@
 
 
 const GAMEBOARD = (function() {
-    let player1 = playerFactory('player1');
-    let player2 = playerFactory('player2');
+    let player1 = playerFactory('Player 1');
+    let player2 = playerFactory('Player 2');
     let gameArr = ['','','','','','','','','',];
     let turn = player1;
     let marker = 'x';
@@ -13,11 +13,18 @@ const GAMEBOARD = (function() {
     let p2Card = document.querySelector('.p2card')
     let p1CardScore = document.querySelector('.p1CardScore')
     let p2CardScore = document.querySelector('.p2CardScore')
-    
+    let winningTiles = [];
+    let theGame = document.querySelector('.gameContainer')
+    let roundWinnerMessage = document.querySelector('.roundWinnerMessage');
+    let hiddenMessage = document.querySelector('.hiddenMessageContainer');
+    let nextRoundButton = document.querySelector('.nextRoundButton');
+
     const displayScores = (function() {
             const display = () => {
-                p1CardScore.innerText = player1.getPoints();
-                p2CardScore.innerText = player2.getPoints();       
+                p1CardScore.innerText = `Score: 
+                ${player1.getPoints()}/5`;
+                p2CardScore.innerText = `Score:
+                ${player2.getPoints()}/5`;       
             }
 
         return { display };
@@ -26,11 +33,18 @@ const GAMEBOARD = (function() {
         if (turn === player1)   {
             p1Card.style.border = '2px solid white';
             p1Card.style.boxShadow ='5px 5px 15px -1px white';
-        }  else (  p2Card.style.border = '2px solid white',
-                p2Card.style.boxShadow ='5px 5px 15px -1px white');
+            p2Card.style.border = '2px solid black';
+            p2Card.style.boxShadow ='5px 5px 15px -1px black';
+        }  else if (turn === player2)   {
+            p1Card.style.border = '2px solid black';
+            p1Card.style.boxShadow ='5px 5px 15px -1px black';
+            p2Card.style.border = '2px solid white';
+            p2Card.style.boxShadow ='5px 5px 15px -1px white';
+        }
     }
 
     const play = () =>  {
+        displayTurn();
         tiles.forEach((tile,i) => {
             tile.addEventListener('click', function(e)  {
                 if(e.target.innerText === 'x' || e.target.innerText === 'o')    {
@@ -43,25 +57,50 @@ const GAMEBOARD = (function() {
                     gameArr[i] = marker;
                     if (checkWinner() === true) {
                         isPlaying = false;
-                        alertWinner()
-                        startNextRound();                
-                    }   else (switchMarker(), switchPlayer())
+                        gameOver()
+                        alertWinner()                                       
+                    }   else (switchMarker(), switchPlayer(),displayTurn())
                 }        
             });
         })    
     }
     
     const checkWinner = () =>   {
-        if  (
-            gameArr[0] === marker && gameArr [1] === marker && gameArr [2] === marker ||
-            gameArr[3] === marker && gameArr [4] === marker && gameArr [5] === marker ||
-            gameArr[6] === marker && gameArr [7] === marker && gameArr [8] === marker ||
-            gameArr[0] === marker && gameArr [3] === marker && gameArr [6] === marker ||
-            gameArr[1] === marker && gameArr [4] === marker && gameArr [7] === marker ||
-            gameArr[2] === marker && gameArr [5] === marker && gameArr [8] === marker ||
-            gameArr[0] === marker && gameArr [4] === marker && gameArr [8] === marker ||
-            gameArr[2] === marker && gameArr [4] === marker && gameArr [6] === marker             
-        ) return true
+        switch(true)    {
+            case (gameArr[0] === marker && gameArr [1] === marker && gameArr [2] === marker):
+                showWinningTiles(0,1,2);
+                return true;
+                break;
+            case (gameArr[3] === marker && gameArr [4] === marker && gameArr [5] === marker):
+                showWinningTiles(3,4,5);
+                return true;
+                break;
+            case (gameArr[6] === marker && gameArr [7] === marker && gameArr [8] === marker):
+                showWinningTiles(6,7,8);
+                return true;
+                break;
+            case (gameArr[0] === marker && gameArr [3] === marker && gameArr [6] === marker):
+                showWinningTiles(0,3,6);
+                return true;
+                break;
+            case (gameArr[1] === marker && gameArr [4] === marker && gameArr [7] === marker):
+                showWinningTiles(1,4,7);
+                return true;
+                break;
+            case (gameArr[2] === marker && gameArr [5] === marker && gameArr [8] === marker):
+                showWinningTiles(2,5,8);
+                return true;
+                break;
+            case (gameArr[0] === marker && gameArr [4] === marker && gameArr [8] === marker):
+                showWinningTiles(0,4,8);
+                return true;
+                break;
+            case (gameArr[2] === marker && gameArr [4] === marker && gameArr [6] === marker):
+                showWinningTiles(2,4,6);
+                return true;
+                break;
+            
+        }
     }
 
     const switchMarker = ()  =>  {
@@ -78,7 +117,29 @@ const GAMEBOARD = (function() {
     }
 
     const gameOver = () => {
-        alert(`${turn.getName()} has won 5 rounds`)
+        if(turn.getPoints === 5)    {
+            console.log('we got a winner ova hea')
+        }
+    }
+
+    const showWinningTiles = (a, b, c) =>   {
+        tiles[a].style.background = 'rgba(95, 250, 250, 0.3)';
+        tiles[a].style.border= '2px solid white';
+        tiles[b].style.background = 'rgba(95, 250, 250, 0.3)';
+        tiles[b].style.border= '2px solid white';
+        tiles[c].style.background = 'rgba(95, 250, 250, 0.3)';
+        tiles[c].style.border= '2px solid white';
+        winningTiles.push(a,b,c)
+
+    }
+
+    const resetWinningTiles = ([a,b,c]) =>  {
+        tiles[a].style.background = 'rgba(95, 250, 250, 0.986)';
+        tiles[a].style.border= '1px solid black';
+        tiles[b].style.background = 'rgba(95, 250, 250, 0.986)';
+        tiles[b].style.border= '1px solid black';
+        tiles[c].style.background = 'rgba(95, 250, 250, 0.986)';
+        tiles[c].style.border= '1px solid black';
     }
     
     const startNextRound = () =>  {
@@ -86,18 +147,21 @@ const GAMEBOARD = (function() {
         if (turn.getPoints() === 5) {
             gameOver();
         } else  
-        setTimeout(resetBoard,501);
+        resetBoard();
     }
 
     const resetBoard = () =>    {
             gameArr = ['','','','','','','','','',];
             tiles.forEach(tile => tile.innerText = '');
             isPlaying = true;
+            resetWinningTiles(winningTiles);
+            winningTiles = [];
+            theGame.style.visibility = 'visible'; 
+            hiddenMessage.style.visibility = 'hidden';
+            hiddenMessage.style.maxHeight= '0'           
             if (player1.getPoints() > 0 ||player2.getPoints() > 0)  {
                 displayScores.display();
             } else return;
-            
- 
     }
 
     const resetGame = () => {
@@ -109,14 +173,17 @@ const GAMEBOARD = (function() {
 
     const alertWinner = () => {
      setTimeout(function()  {
-         alert(`${turn.getName()} has won this round`)       
-        }, 500);
+         theGame.style.visibility= 'hidden';
+         hiddenMessage.style.visibility = 'visible';
+         hiddenMessage.style.maxHeight= '100%'
+         roundWinnerMessage.innerText = `${turn.getName()} has won this round!`
+        }, 750);
+
 
     }
-    displayTurn()
-    console.log(p1Card)
     displayScores.display();
     resetGameBtn.addEventListener('click',resetGame)
+    nextRoundButton.addEventListener('click', startNextRound)
     return  {play}
 
 })();
