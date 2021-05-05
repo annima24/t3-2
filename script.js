@@ -18,6 +18,8 @@ const GAMEBOARD = (function() {
     let roundWinnerMessage = document.querySelector('.roundWinnerMessage');
     let hiddenMessage = document.querySelector('.hiddenMessageContainer');
     let nextRoundButton = document.querySelector('.nextRoundButton');
+    let newGameButton = document.querySelector('.newGameButton');
+    let turnCount= 0;
 
     const displayScores = (function() {
             const display = () => {
@@ -29,6 +31,7 @@ const GAMEBOARD = (function() {
 
         return { display };
     })();
+
     const displayTurn = () => {
         if (turn === player1)   {
             p1Card.style.border = '2px solid white';
@@ -57,9 +60,13 @@ const GAMEBOARD = (function() {
                     gameArr[i] = marker;
                     if (checkWinner() === true) {
                         isPlaying = false;
-                        gameOver()
-                        alertWinner()                                       
-                    }   else (switchMarker(), switchPlayer(),displayTurn())
+                        turn.addPoint();
+                        if (gameOver() === true)    {
+                            alertGameOver()
+                        }else alertWinner()       
+                    }   else if (checkDraw()=== true)   {
+                       alertDraw();
+                    }   else (switchMarker(), switchPlayer(),displayTurn(), console.log(turnCount), turnCount++)
                 }        
             });
         })    
@@ -103,6 +110,12 @@ const GAMEBOARD = (function() {
         }
     }
 
+    const checkDraw = () => {
+        if (turnCount === 8)    {           
+               return true;
+        }
+    }
+
     const switchMarker = ()  =>  {
         if (marker === 'x') {
             marker = 'o';           
@@ -117,8 +130,9 @@ const GAMEBOARD = (function() {
     }
 
     const gameOver = () => {
-        if(turn.getPoints === 5)    {
-            console.log('we got a winner ova hea')
+        if(turn.getPoints() === 5)    {
+            turn = player1;
+            return true;
         }
     }
 
@@ -134,21 +148,17 @@ const GAMEBOARD = (function() {
     }
 
     const resetWinningTiles = ([a,b,c]) =>  {
+        
+        if (a === undefined)    {
+            return;
+        }else
         tiles[a].style.background = 'rgba(95, 250, 250, 0.986)';
         tiles[a].style.border= '1px solid black';
         tiles[b].style.background = 'rgba(95, 250, 250, 0.986)';
         tiles[b].style.border= '1px solid black';
         tiles[c].style.background = 'rgba(95, 250, 250, 0.986)';
         tiles[c].style.border= '1px solid black';
-    }
-    
-    const startNextRound = () =>  {
-        turn.addPoint();
-        if (turn.getPoints() === 5) {
-            gameOver();
-        } else  
-        resetBoard();
-    }
+    }    
 
     const resetBoard = () =>    {
             gameArr = ['','','','','','','','','',];
@@ -156,9 +166,12 @@ const GAMEBOARD = (function() {
             isPlaying = true;
             resetWinningTiles(winningTiles);
             winningTiles = [];
+            turnCount = 0;
             theGame.style.visibility = 'visible'; 
             hiddenMessage.style.visibility = 'hidden';
-            hiddenMessage.style.maxHeight= '0'           
+            hiddenMessage.style.maxHeight= '0'
+            newGameButton.style.visibility = 'hidden';
+            nextRoundButton.style.visibility = 'hidden';           
             if (player1.getPoints() > 0 ||player2.getPoints() > 0)  {
                 displayScores.display();
             } else return;
@@ -169,6 +182,7 @@ const GAMEBOARD = (function() {
         player1.resetPoints()
         player2.resetPoints();
         displayScores.display();
+
     }
 
     const alertWinner = () => {
@@ -176,14 +190,39 @@ const GAMEBOARD = (function() {
          theGame.style.visibility= 'hidden';
          hiddenMessage.style.visibility = 'visible';
          hiddenMessage.style.maxHeight= '100%'
+         nextRoundButton.style.visibility = 'visible'
+         newGameButton.style.visibility = 'hidden';
          roundWinnerMessage.innerText = `${turn.getName()} has won this round!`
         }, 750);
-
-
     }
+
+    const alertDraw = () => {
+        setTimeout(function()  {
+            theGame.style.visibility= 'hidden';
+            hiddenMessage.style.visibility = 'visible';
+            hiddenMessage.style.maxHeight= '100%'
+            nextRoundButton.style.visibility = 'visible'
+            newGameButton.style.visibility = 'hidden';
+            roundWinnerMessage.innerText = `This round is a draw`
+           }, 750);
+    }
+
+    const alertGameOver = () => {
+        setTimeout(function()  {
+            theGame.style.visibility= 'hidden';
+            hiddenMessage.style.visibility = 'visible';
+            hiddenMessage.style.maxHeight= '100%'
+            nextRoundButton.style.visibility = 'hidden'
+            newGameButton.style.visibility = 'visible';
+            roundWinnerMessage.innerText = `${turn.getName()} has won 5 Rounds!
+            Congrats, Champ! `
+           }, 750);
+    }
+
     displayScores.display();
     resetGameBtn.addEventListener('click',resetGame)
-    nextRoundButton.addEventListener('click', startNextRound)
+    nextRoundButton.addEventListener('click', resetBoard)
+    newGameButton.addEventListener('click', resetGame)
     return  {play}
 
 })();
@@ -213,7 +252,5 @@ function playerFactory(name)  {
     }
     return  {setName, getName, addPoint, getPoints, resetPoints}
 }
-
-
 
 GAMEBOARD.play();

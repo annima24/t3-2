@@ -15,6 +15,13 @@ h1  {
     text-align: center;
 }
 
+button  {
+    background: rgba(255, 255, 255, 0);
+    border: 2px solid black;
+    font-family: 'Girassol', cursive;
+    font-size: 20px;
+}
+
 .theGame    {
     display: grid;
     gap: 10px;
@@ -68,23 +75,18 @@ h1  {
     text-align: center;
 }
 
+.nextRoundButton    {
+    visibility: hidden;
+}
+
+.newGameButton  {
+    visibility: hidden;
+}
+
 .hiddenButtonContainer    {
     display: grid;
     justify-content: center;
     align-content: center;
-}
-.nextRoundButton   {
-    background: rgba(255, 255, 255, 0);
-    border: 2px solid black;
-    font-family: 'Girassol', cursive;
-    font-size: 20px;
-}
-
-.resetGameBtn    {
-    background: rgba(255, 255, 255, 0);
-    border: 2px solid black;
-    font-family: 'Girassol', cursive;
-    font-size: 20px;
 }
 
 .gameBackground {
