@@ -1,29 +1,34 @@
 
 
 const GAMEBOARD = (function() {
-    let player1 = playerFactory('bill');
-    let player2 = playerFactory('steve');
+    let player1 = playerFactory('player1');
+    let player2 = playerFactory('player2');
     let gameArr = ['','','','','','','','','',];
     let turn = player1;
     let marker = 'x';
     let isPlaying = true;
     let tiles = document.querySelectorAll('.square')
     let resetGameBtn = document.querySelector('.resetGameBtn')
+    let p1Card = document.querySelector('.p1card')
+    let p2Card = document.querySelector('.p2card')
+    let p1CardScore = document.querySelector('.p1CardScore')
+    let p2CardScore = document.querySelector('.p2CardScore')
     
-    const displayScores = (function()  {
-        let scoreBoard = document.querySelector('.scoreBoard');
-                
-        const display = ()  =>  {
-            scoreBoard.innerText = `${player1.getName()} your score is ${player1.getPoints()} and ${player2.getName()} your score is ${player2.getPoints()}
-            ${turn.getName()}, you won the last round, so you'll start this round`;
-        }
-        
-        const clearDisplay = () => {
-            scoreBoard.innerText = '';
-        }
-        return {display, clearDisplay};       
-    })();
+    const displayScores = (function() {
+            const display = () => {
+                p1CardScore.innerText = player1.getPoints();
+                p2CardScore.innerText = player2.getPoints();       
+            }
 
+        return { display };
+    })();
+    const displayTurn = () => {
+        if (turn === player1)   {
+            p1Card.style.border = '2px solid white';
+            p1Card.style.boxShadow ='5px 5px 15px -1px white';
+        }  else (  p2Card.style.border = '2px solid white',
+                p2Card.style.boxShadow ='5px 5px 15px -1px white');
+    }
 
     const play = () =>  {
         tiles.forEach((tile,i) => {
@@ -85,11 +90,10 @@ const GAMEBOARD = (function() {
     }
 
     const resetBoard = () =>    {
-
             gameArr = ['','','','','','','','','',];
             tiles.forEach(tile => tile.innerText = '');
             isPlaying = true;
-            if (player1.getPoints() > 0 ||player1.getPoints() > 0)  {
+            if (player1.getPoints() > 0 ||player2.getPoints() > 0)  {
                 displayScores.display();
             } else return;
             
@@ -100,7 +104,7 @@ const GAMEBOARD = (function() {
         resetBoard();
         player1.resetPoints()
         player2.resetPoints();
-        displayScores.clearDisplay();
+        displayScores.display();
     }
 
     const alertWinner = () => {
@@ -109,7 +113,9 @@ const GAMEBOARD = (function() {
         }, 500);
 
     }
-
+    displayTurn()
+    console.log(p1Card)
+    displayScores.display();
     resetGameBtn.addEventListener('click',resetGame)
     return  {play}
 

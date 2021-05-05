@@ -6,26 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet"> 
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-
-    <p class="scoreBoard"></p>
-    <div class="gameboard">
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>        
+    <div class="theGame">
+        <div class="playerCards">
+            <div class="p1card pcards">
+                <p >Player 1</p>
+                <p >X</p>
+                <p class="p1CardScore"></p>
+            </div>
+            <div class="p2card pcards">
+                <p >Player 2</p>
+                <p >O</p>
+                <p class="p2CardScore"></p>
+            </div>
+        </div>
+            
+        <h1 class="name">Tic Tac Toe</h1>
+        <div class="buttonContainer">
+            <button type="button" class="resetGameBtn">Reset game</button>
+        </div>
+        <p class="scoreBoard"></p>
+        <div class="gameBackground">
+            <div class="gameboard">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>        
+            </div>
+        </div>
     </div>
-
-    <button type="button" class="resetGameBtn">Reset game</button>
-
-
-    <script src="script.js"></script>
-</body>
-</html>
+        
+        
+        
+        <script src="script.js"></script>
+    </body>
+    </html>
