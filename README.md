@@ -2,6 +2,3 @@ This project is going to be a browser tic tac toe game. Initially it will be a t
 
 
 
-
-
-when the page loads, there is a prompt, where the two users enter their name. then we flip a coin to see who goes first.there will be a box on either side of the board where the scores will be. play a round, score updates, board clears out,winner starts next round, play up to 5.
